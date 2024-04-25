@@ -1,10 +1,27 @@
-# Define the compiler
-CXX := g++
+CXX := c++
 
-# Define compilation flags
-CXXFLAGS := -Wall -Wextra -std=c++23 -shared -std=c++11 -fPIC  `python3 -m pybind11 --includes` # Change to desired C++ standard (e.g., c++11, c++14, c++17, c++20)
+CXXFLAGS := -O3 -Wall -std=c++11 -fPIC $(shell python3 -m pybind11 --includes)
 
-# Define the source files
-SOURCES := $(wildcard src/c/*.cpp)
+SRCDIR := src/cpp
 
+SRCS := $(wildcard $(SRCDIR)/*.cpp)
+BINDIR := bin
+
+OBJS := $(SRCS:$(SRCDIR)/%.cpp=$(BINDIR)/%.o)
+
+TARGET := src/steanography.so
+
+.PHONY: debug
+all: $(TARGET)
+
+
+$(OBJS): $(SRCS)
+	$(CXX) -c $(CXXFLAGS) $< -o $@
+
+$(TARGET): $(OBJS)
+	$(CXX) -shared $(CXXFLAGS) $< -o $@
+
+debug:
+	@echo $(SRCS)
+	@echo $(OBJS)
 
