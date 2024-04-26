@@ -14,12 +14,16 @@ TARGET := src/steanography.so
 .PHONY: debug
 all: $(TARGET)
 
+#Wrong solution
+# $(OBJS): $(SRCS)
+# 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
-$(OBJS): $(SRCS)
+$(BINDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) -c $(CXXFLAGS) $< -o $@
 
+
 $(TARGET): $(OBJS)
-	$(CXX) -shared $(CXXFLAGS) $< -o $@
+	$(CXX) -shared $(CXXFLAGS) $^ -o $@
 
 debug:
 	@echo $(SRCS)
