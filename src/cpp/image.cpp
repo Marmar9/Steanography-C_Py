@@ -3,30 +3,43 @@
 #include <stdio.h>
 #include <string>
 
-void decode_from_image(pybind11::bytes bytes, ImageFileTypes option) {
+namespace py = pybind11;
 
-    // Conversion to c natives
-    std::string cpp_form = bytes.cast<std::string>();
-    const char * valid_binary = cpp_form.c_str();
-    // Main code begins 
-    switch (option) {
-        case WAW:
-        printf("%s\n", valid_binary);
-            break;
-    }
+py::bytes encode_into_image(py::bytes image, std::string text,  ImageFileTypes file_type) {
+
+    // Probably unsafe 
+    // const char * valid_binary = (new std::string(image.cast<std::string>()))->c_str();
     
+   //  Main code begins 
+     switch (file_type) {
+         case PNG:
+             // Conversion to c natives
+             std::string cpp_string = image.cast<std::string>();
+
+             const char * png_image = cpp_string.c_str();
+             const char * text_pointer = text.c_str(); 
+
+             printf("%s\n", png_image);
+             printf("%s\n", text_pointer);
+
+             break;
+     }
+
+   return image;
 }
 
-void encode_into_image(pybind11::bytes bytes, ImageFileTypes option) {
+py::bytes decode_from_image(py::bytes image, ImageFileTypes file_type) {
 
-    // Conversion to c natives
-    std::string cpp_form = bytes.cast<std::string>();
-    const char * valid_binary = cpp_form.c_str();
+    switch (file_type) {
+        case PNG:
+            std::string cpp_string= image.cast<std::string>();
+            const char * png_image = cpp_string.c_str();
 
-    // Main code begins 
-    switch (option) {
-        case WAW:
-        printf("%s\n", valid_binary);
+        printf("%s\n", png_image);
             break;
     }
+
+    std::string abc = std::string("asdasd");
+
+    return py::bytes(abc); 
 }
