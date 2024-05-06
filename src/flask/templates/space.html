@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}File checker{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>File Checking</h2>
+
+    <form id="fileSpaceForm">
+        <div class="mb-3">
+            <label for="fileToCheck" class="form-label">Choose file to check available space</label>
+            <input type="file" class="form-control" id="fileToCheck" required>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="checkSpace()">Check Space</button>
+    </form>
+
+    <div class="mt-3" id="fileSpaceResult"></div>
+</div>
+
+<script>
+    function checkSpace() {
+        const fileInput = document.getElementById("fileToCheck");
+        const file = fileInput.files[0];
+
+        if (!file) {
+            document.getElementById("fileSpaceResult").innerText = "Please select the file";
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        fetch('/api/check_space', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultElement = document.getElementById("fileSpaceResult");
+            if (data['Status'] === 'Success') {
+                resultElement.innerHTML = `<p class='text-success'>${data['Space']}</p>`;
+            } else {
+                resultElement.innerHTML = `<p class='text-danger'>${data["Error"]}</p>`;
+            }
+        });
+    }
+</script>
+{% endblock %}

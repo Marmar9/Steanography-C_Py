@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}File decoder{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>File Decoder</h2>
+
+    <form id="fileDecodingForm">
+        <div class="mb-3">
+            <label for="decode" class="form-label">Choose file to decode (wav)</label>
+            <input type="file" class="form-control" id="decode" required>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="decodeFile()">Decode</button>
+    </form>
+
+    <div class="mt-3" id="decodedFileResult"></div>
+</div>
+
+<script>
+    function decodeFile() {
+        const decodeInput = document.getElementById("decode");
+        const decode = decodeInput.files[0];
+        if (!decode) {
+            document.getElementById("decodedFileResult").innerText = "Please select the file";
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("decode", decode);
+
+        fetch('/api/decode', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultElement = document.getElementById("decodedFileResult");
+            if (data['Status'] === 'Success') {
+                resultElement.innerHTML = `<p class='text-success'><a href="/download/${data['Name']}" class="btn btn-secondary">Download decoded</a></p>`;
+            } else {
+                resultElement.innerHTML = `<p class='text-danger'>${data["Error"]}</p>`;
+            }
+        });
+    }
+</script>
+{% endblock %}

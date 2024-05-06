@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>{% block title %}Main Page{% endblock %}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        #menu {
+            width: 200px;
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+
+        button {
+            margin-bottom: 10px;
+            padding: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="menu" class="bg-light">
+    <h2 class="text-center">Menu</h2>
+    <ul class="list-group">
+        <li class="list-group-item"><button class="btn btn-light" onclick="navigateTo('space')">Available space in wav</button></li>
+        <li class="list-group-item"><button class="btn btn-light" onclick="navigateTo('encode')">Encoding into wav</button></li>
+        <li class="list-group-item"><button class="btn btn-light" onclick="navigateTo('decode')">Decoding from wav</button></li>
+    </ul>
+</div>
+<div class="container mt-4">
+    {% block content %}
+        <h2>Tool for hiding files in wav sound</h2>
+        <h3>To use tool choose option from menu</h3>
+    {% endblock %}
+</div>
+<script>
+    function navigateTo(page) {
+        window.location.href = `/${page}`;
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
