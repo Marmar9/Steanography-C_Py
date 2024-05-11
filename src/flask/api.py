@@ -5,12 +5,23 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
+    '''
+    Funkcja renderuje strone glowna
+    '''
     return render_template('base.html')
 @app.route('/space')
 def check_space():
+    '''
+    Funkcja renderuje strone do sprawdzania dostepnej przestrzeni w pliku wav
+    :return:
+    '''
     return render_template('space.html')
 @app.route('/api/check_space', methods=['POST'])
 def api_check_space():
+    '''
+    Funkcja sprawdza dostepna przestrzen do zaszyfrowania w pliku wav zapisujac go do temp.wav
+    i zwraca ilosc dostepnej przestrzeni z metody get_available_space
+    '''
     try:
         file = request.files['file']
         if file:
@@ -22,9 +33,17 @@ def api_check_space():
         return jsonify({"Status": "Failed", "Error": str(e)})
 @app.route('/encode',methods=['GET'])
 def encode():
+    '''
+    Funkcja renderuje strone do kodowania informacji w pliku wav
+    '''
     return render_template('encode.html')
 @app.route('/api/encode', methods=['POST'])
 def api_encode():
+    '''
+    Funkcja otwiera plik zrodlowy i plik z danymi, nastepnie koduje
+    plik zrodlowy za pomoca metody encode z klasy wav
+    oraz zapisuje go w folderze static jako plik o nazwie encoded.wav
+    '''
     try:
         source = request.files['source']
         data=request.files['data']
@@ -35,7 +54,6 @@ def api_encode():
             e.encode('static/encoded')
             return jsonify({"Status": "Success"})
 
-        wav.encode_message(open('temp.wav','rb').read(),message)
         return jsonify({"Status": "Success"})
     except IndexError:
         return jsonify({"Status": "Failed", "Error": "Not enough space"})
@@ -43,9 +61,16 @@ def api_encode():
         return jsonify({"Status": "Failed", "Error": str(e)})
 @app.route('/decode',methods=['GET'])
 def decode():
+    '''
+    Funkcja renderuje strone do dekodowania innego pliku z pliku wav
+    '''
     return render_template('decode.html')
 @app.route('/api/decode', methods=['POST'])
 def api_decode():
+    '''
+    Funkcja otwiera plik do dekodowania, nastepnie dekoduje go za pomoca metody decode z klasy wav
+    i zwraca nazwe zdekodowanego pliku
+    '''
     try:
         decode = request.files['decode']
         if decode:
@@ -54,12 +79,14 @@ def api_decode():
             ext=d.decode('static/decoded')
             return jsonify({"Status": "Success",'Name':ext.replace('static/','')})
 
-        wav.encode_message(open('temp.wav','rb').read(),message)
         return jsonify({"Status": "Success"})
     except Exception as e:
         return jsonify({"Status": "Failed", "Error": str(e)})
 @app.route('/download/<path:path>')
 def downloadFile(path):
+    '''
+    Funkcja zwraca plik z folderu static
+    '''
     return send_file(f'static/{path}', as_attachment=True)
 if __name__ == '__main__':
     app.run()
