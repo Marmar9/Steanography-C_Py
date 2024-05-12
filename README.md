@@ -25,3 +25,12 @@ $ export PYTHONPATH="$PWD/bin"
 ```bash
 $ ./gen-pyright-types.sh
 ```
+- Web app
+```bash
+$ python api.py
+```
+- Client example
+```bash
+$ python wav.py -e chime_big_ben.wav .\1200px-Sunflower_from_Silesia2-min.jpg result
+$ python wav.py -d result.wav decoded
+```
