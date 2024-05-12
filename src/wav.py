@@ -104,12 +104,14 @@ class Encode:
 
 
     def u16(self,value):
+        #konwertacja 16 bitowego inta na signed int
         if value & 0x8000:
             return -((value ^ 0xffff) + 1)
         return value
     def write_byte(self,byte,index):
         for i in range(4):
             data=self.parsed.data_sub_chunk.data
+            #nadpisywanie 2 najmniej znaczacych bitow
             data[index+i]=self.u16((data[index+i]&0xfffc)| (byte & 3))
             byte>>=2
         return 4
@@ -131,6 +133,7 @@ class Decode:
         byte = 0
         shift = 0
         for i in range(4):
+            #odczytywanie 2 najmniej znaczacych bitow
             byte|=((self.parsed.data_sub_chunk.data[offset+i]&3)<<shift)
             shift+=2
         return byte,4
@@ -138,12 +141,14 @@ class Decode:
         offset = 0
         size=0
         shift=0
+        #odczytywanie rozmiaru ukrytego pliku
         for i in range(4):
             (byte,inc)=self.read_byte(offset)
             size|=size|(byte<<shift)
             shift+=8
             offset+=inc
         hidden_data=bytearray()
+        #odczytywanie ukrytych danych
         for i in range(size):
             (byte,inc)=self.read_byte(offset)
             hidden_data.append(byte)
