@@ -9,7 +9,7 @@ BINDIR := bin
 
 OBJS := $(SRCS:$(SRCDIR)/%.cpp=$(BINDIR)/%.o)
 
-TARGET := src/steanography.so
+TARGET := bin/steanography.so
 
 .PHONY: debug
 all: $(TARGET)
