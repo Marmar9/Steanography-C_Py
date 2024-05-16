@@ -9,7 +9,7 @@ enum ImageFileTypes {
     PNG,
 };
 
-py::bytes encode_into_image(py::bytes image, std::string text, ImageFileTypes file_type);
+py::bytes encode_into_image(py::bytes image, py::bytes text, ImageFileTypes file_type);
 
 py::bytes decode_from_image(py::bytes image, ImageFileTypes file_type);
 

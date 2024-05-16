@@ -22,3 +22,4 @@ PYBIND11_MODULE(steanography, m) {
     m.def("encode_into_image", &encode_into_image, "Encode text into image", py::arg("image"), py::arg("text"), py::arg("file_type"));
     m.def("decode_from_image", &decode_from_image, "Decode text from image", py::arg("image"), py::arg("file_type"));
 }
+
