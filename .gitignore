@@ -1,7 +1,7 @@
 # Custom excludes
 .cache
 bin
-
+src/steanography.pyi
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
