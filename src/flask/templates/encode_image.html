@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}File encoder{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>File Encoding</h2>
+
+    <form id="fileEncodingForm">
+        <div class="mb-3">
+            <label for="source" class="form-label">Choose source file to hide (png)</label>
+            <input type="file" class="form-control" id="source" required>
+        </div>
+        <div class="mb-3">
+            <label for="data" class="form-label">Choose data file to hide (txt)</label>
+            <input type="file" class="form-control" id="data" required>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="encode()">Encode</button>
+    </form>
+
+    <div class="mt-3" id="encodedFileResult"></div>
+</div>
+
+<script>
+    function encode() {
+        const sourceInput = document.getElementById("source");
+        const source = sourceInput.files[0];
+        const dataInput = document.getElementById("data");
+        const data = dataInput.files[0];
+        if (!source || !data) {
+            document.getElementById("encodedFileResult").innerText = "Please select the files";
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("source", source);
+        formData.append("data", data);
+
+        fetch('/api/encode_image', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultElement = document.getElementById("encodedFileResult");
+            if (data['Status'] === 'Success') {
+                resultElement.innerHTML = `<p class='text-success'><a href="/download/encoded.png" class="btn btn-secondary">Download encoded</a></p>`;
+            } else {
+                resultElement.innerHTML = `<p class='text-danger'>${data["Error"]}</p>`;
+            }
+        });
+    }
+</script>
+{% endblock %}

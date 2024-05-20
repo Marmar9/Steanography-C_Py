@@ -1,5 +1,7 @@
 from flask import Flask, render_template, jsonify, request, send_file
 from src import wav
+from steanography import encode_into_image, ImageFileTypes, decode_from_audio, encode_into_audio, decode_from_image
+
 app = Flask(__name__)
 
 
@@ -82,6 +84,55 @@ def api_decode():
         return jsonify({"Status": "Success"})
     except Exception as e:
         return jsonify({"Status": "Failed", "Error": str(e)})
+@app.route('/api/encode_image', methods=['POST'])
+def api_encode_image():
+
+    try:
+        source = request.files['source']
+        data=request.form['data']
+        if source:
+            source.save(source.filename)
+            e=encode_into_image(open(source.filename,'rb').read(),data,ImageFileTypes.PNG)
+            with open('static/encoded.png','wb') as f:
+                f.write(e)
+            return jsonify({"Status": "Success","Name":"encoded.png"})
+
+        return jsonify({"Status": "Success"})
+    except IndexError:
+        return jsonify({"Status": "Failed", "Error": "Not enough space"})
+    except Exception as e:
+        return jsonify({"Status": "Failed", "Error": str(e)})
+@app.route('/encode_image',methods=['GET'])
+def encode_image():
+    '''
+    Funkcja renderuje strone do kodowania informacji w pliku obrazu
+    '''
+    return render_template('encode_image.html')
+@app.route('/decode_image',methods=['GET'])
+def decode_image():
+    '''
+    Funkcja renderuje strone do dekodowania informacji z pliku obrazu
+    '''
+    return render_template('decode_image.html')
+@app.route('/api/decode_image', methods=['POST'])
+def api_decode_image():
+    '''
+    Funkcja otwiera plik do dekodowania, nastepnie dekoduje go za pomoca metody decode_from_image z klasy steanography
+    i zwraca nazwe zdekodowanego pliku
+    '''
+    try:
+        decode = request.files['decode']
+        if decode:
+            decode.save(decode.filename)
+            d=decode_from_image(open(decode.filename,'rb').read(),ImageFileTypes.PNG)
+            with open('static/decoded.txt','wb') as f:
+                f.write(d)
+            return jsonify({"Status": "Success","Name":"decoded.txt"})
+
+        return jsonify({"Status": "Success"})
+    except Exception as e:
+        return jsonify({"Status": "Failed", "Error": str(e)})
+
 @app.route('/download/<path:path>')
 def downloadFile(path):
     '''
