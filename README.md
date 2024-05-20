@@ -34,3 +34,7 @@ $ python api.py
 $ python wav.py -e chime_big_ben.wav .\1200px-Sunflower_from_Silesia2-min.jpg result
 $ python wav.py -d result.wav decoded
 ```
+
+## References
+
+- https://www.youtube.com/watch?v=M9ZwuIv3xz8
