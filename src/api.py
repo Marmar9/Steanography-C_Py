@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request, send_file
-import wav
+import wav,os
 from steanography import encode_into_image, ImageFileTypes, decode_from_audio, encode_into_audio, decode_from_image
 
 app = Flask(__name__)
@@ -28,7 +28,7 @@ def api_check_space():
         file = request.files['file']
         if file:
             file.save('temp.wav')
-            return jsonify({'Status':'Success','Space':f'{wav.get_available_space(open('temp.wav','rb').read())/1000} KB Available'})
+            return jsonify({'Status':'Success','Space':f"{wav.get_available_space(open('temp.wav','rb').read())/1000} KB Available"})
         else:
             return jsonify({"Status": "Failed", "Error": "File is not valid"})
     except Exception as e:
@@ -84,24 +84,24 @@ def api_decode():
         return jsonify({"Status": "Success"})
     except Exception as e:
         return jsonify({"Status": "Failed", "Error": str(e)})
+
+
 @app.route('/api/encode_image', methods=['POST'])
 def api_encode_image():
 
-    try:
         source = request.files['source']
-        data=request.form['data']
+        data=request.files['data']
+
+        print(data, source)
         if source:
             source.save(source.filename)
-            e=encode_into_image(open(source.filename,'rb').read(),data,ImageFileTypes.PNG)
-            with open('static/encoded.png','wb') as f:
+            e=encode_into_image(open(source.filename,'rb').read(),data.read(),ImageFileTypes.PNG)
+            with open('./src/static/encoded.png','wb') as f:
                 f.write(e)
             return jsonify({"Status": "Success","Name":"encoded.png"})
 
         return jsonify({"Status": "Success"})
-    except IndexError:
-        return jsonify({"Status": "Failed", "Error": "Not enough space"})
-    except Exception as e:
-        return jsonify({"Status": "Failed", "Error": str(e)})
+    
 @app.route('/encode_image',methods=['GET'])
 def encode_image():
     '''
@@ -125,7 +125,7 @@ def api_decode_image():
         if decode:
             decode.save(decode.filename)
             d=decode_from_image(open(decode.filename,'rb').read(),ImageFileTypes.PNG)
-            with open('static/decoded.txt','wb') as f:
+            with open('./src/static/decoded.txt','wb') as f:
                 f.write(d)
             return jsonify({"Status": "Success","Name":"decoded.txt"})
 

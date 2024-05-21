@@ -1,10 +1,4 @@
-from steanography import encode_into_image, ImageFileTypes, decode_from_audio, encode_into_audio, decode_from_image
-import sys
-
-
-with open("src/example.png", "rb") as f:
-  response = encode_into_image(f.read(),"""
-  Higiena i choroby układu nerwowego
+Higiena i choroby układu nerwowego
 
 Układ nerwowy to skomplikowana sieć komórek i narządów, która odpowiada za kontrolę wszystkich funkcji organizmu. Obejmuje mózg, rdzeń kręgowy i nerwy. Aby układ nerwowy działał prawidłowo, należy o niego dbać poprzez higienę układu nerwowego.
 
@@ -41,12 +35,3 @@ Dodatkowe porady dotyczące dbania o układ nerwowy:
     Zadbaj o komfort akustyczny: nadmierny hałas może być szkodliwy dla układu nerwowego. Zadbaj o to, aby Twoje otoczenie było ciche lub używaj zatyczek do uszu.
 
 Dbając o higienę układu nerwowego, możesz zmniejszyć ryzyko chorób i poprawić swoje ogólne samopoczucie
-  """.encode()  , ImageFileTypes.PNG)
-
-with open("output.png", "wb") as f:
-        f.write(response)
-
-with open("output.png", "rb") as f:
-    print("niger")
-    decoded = decode_from_image(f.read(), ImageFileTypes.PNG);
-    print(decoded.decode())
