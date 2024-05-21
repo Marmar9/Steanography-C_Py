@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request, send_file
-from src import wav
+import wav
 from steanography import encode_into_image, ImageFileTypes, decode_from_audio, encode_into_audio, decode_from_image
 
 app = Flask(__name__)
