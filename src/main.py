@@ -3,50 +3,11 @@ import sys
 
 
 with open("src/example.png", "rb") as f:
-  response = encode_into_image(f.read(),"""
-  Higiena i choroby układu nerwowego
-
-Układ nerwowy to skomplikowana sieć komórek i narządów, która odpowiada za kontrolę wszystkich funkcji organizmu. Obejmuje mózg, rdzeń kręgowy i nerwy. Aby układ nerwowy działał prawidłowo, należy o niego dbać poprzez higienę układu nerwowego.
-
-Higiena układu nerwowego obejmuje szereg czynności, które mają na celu chronić układ nerwowy przed uszkodzeniami i chorobami. Należą do nich:
-
-    Zdrowy styl życia:
-        Dieta bogata w owoce, warzywa i chude białko: dostarcza organizmowi niezbędnych witamin, minerałów i antyoksydantów, które chronią komórki nerwowe przed uszkodzeniami.
-        Regularne ćwiczenia: poprawiają przepływ krwi do mózgu i zwiększają produkcję endorfin, które mają działanie przeciwbólowe i przeciwdepresyjne.
-        Wystarczająca ilość snu: pozwala mózgowi na regenerację i odpoczynek.
-        Unikanie stresu: przewlekły stres może prowadzić do uszkodzenia komórek nerwowych. Istnieje wiele sposobów radzenia sobie ze stresem, takich jak joga, medytacja i spędzanie czasu na łonie natury.
-        Unikanie alkoholu i palenia: alkohol i nikotyna są szkodliwe dla komórek nerwowych.
-    Dbanie o zdrowie psychiczne: zaburzenia zdrowia psychicznego, takie jak depresja i lęk, mogą mieć negatywny wpływ na układ nerwowy. Ważne jest, aby szukać pomocy, jeśli doświadczasz objawów zaburzeń zdrowia psychicznego.
-    Regularne badania lekarskie: pozwalają na wczesne wykrycie i leczenie chorób układu nerwowego.
-
-Choroby układu nerwowego to schorzenia, które wpływają na funkcjonowanie mózgu, rdzenia kręgowego lub nerwów. Mogą być spowodowane różnymi czynnikami, takimi jak urazy, infekcje, choroby autoimmunologiczne i predyspozycje genetyczne. Objawy chorób układu nerwowego mogą być różnorodne i zależą od rodzaju schorzenia. Należą do nich:
-
-    Ból
-    Drętwienie
-    Osłabienie
-    Zaburzenia równowagi
-    Trudności z chodzeniem
-    Zaburzenia mowy
-    Problemy z pamięcią i koncentracją
-    Zaburzenia nastroju
-
-Jeśli doświadczasz objawów choroby układu nerwowego, ważne jest, aby jak najszybciej zgłosić się do lekarza. Wczesne wykrycie i leczenie może poprawić rokowanie i jakość życia.
-
-Dodatkowe porady dotyczące dbania o układ nerwowy:
-
-    Naucz się technik relaksacyjnych: techniki relaksacyjne, takie jak joga, medytacja i głębokie oddychanie, mogą pomóc zmniejszyć stres i poprawić jakość snu.
-    Spędzaj czas z bliskimi: więzi społeczne są ważne dla zdrowia psychicznego i mogą pomóc zmniejszyć stres.
-    Zadbaj o odpowiednie oświetlenie: odpowiednie oświetlenie w miejscu pracy i w domu może zmniejszyć zmęczenie wzroku i bóle głowy.
-    Regularnie rób przerwy w pracy: jeśli pracujesz przy komputerze, rób regularne przerwy, aby przeciągnąć się i poruszać.
-    Zadbaj o komfort akustyczny: nadmierny hałas może być szkodliwy dla układu nerwowego. Zadbaj o to, aby Twoje otoczenie było ciche lub używaj zatyczek do uszu.
-
-Dbając o higienę układu nerwowego, możesz zmniejszyć ryzyko chorób i poprawić swoje ogólne samopoczucie
-  """.encode()  , ImageFileTypes.PNG)
+  response = encode_into_image(f.read(),"""wiadomosc""".encode()  , ImageFileTypes.PNG)
 
 with open("output.png", "wb") as f:
         f.write(response)
 
 with open("output.png", "rb") as f:
-    print("niger")
     decoded = decode_from_image(f.read(), ImageFileTypes.PNG);
     print(decoded.decode())
