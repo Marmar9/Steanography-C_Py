@@ -27,7 +27,7 @@ $ ./gen-pyright-types.sh
 ```
 - Web app
 ```bash
-$ python api.py
+$ python src/api.py
 ```
 - Client example
 ```bash
