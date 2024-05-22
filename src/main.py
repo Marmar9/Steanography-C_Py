@@ -3,7 +3,9 @@ import sys
 
 
 with open("src/example.png", "rb") as f:
-  response = encode_into_image(f.read(),"""wiadomosc""".encode()  , ImageFileTypes.PNG)
+  response = encode_into_image(f.read(),"""
+        test
+  """.encode()  , ImageFileTypes.PNG)
 
 with open("output.png", "wb") as f:
         f.write(response)

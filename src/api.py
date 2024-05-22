@@ -53,7 +53,7 @@ def api_encode():
             source.save(source.filename)
             data.save(data.filename)
             e=wav.Encode(open(source.filename,'rb').read(),open(data.filename,'rb').read())
-            e.encode('static/encoded')
+            e.encode('./src/static/encoded')
             return jsonify({"Status": "Success"})
 
         return jsonify({"Status": "Success"})
@@ -77,9 +77,9 @@ def api_decode():
         decode = request.files['decode']
         if decode:
             decode.save(decode.filename)
-            d=wav.Decode(open(decode.filename,'rb').read())
-            ext=d.decode('static/decoded')
-            return jsonify({"Status": "Success",'Name':ext.replace('static/','')})
+            d=wav.Decode(decode.read())
+            ext=d.decode('./src/static/decoded')
+            return jsonify({"Status": "Success",'Name':ext.replace('./src/static/','')})
 
         return jsonify({"Status": "Success"})
     except Exception as e:
@@ -88,19 +88,22 @@ def api_decode():
 
 @app.route('/api/encode_image', methods=['POST'])
 def api_encode_image():
+        try:
+            source = request.files['source']
+            data=request.files['data']
 
-        source = request.files['source']
-        data=request.files['data']
+            if source:
+                e=encode_into_image(source.read(),data.read(),ImageFileTypes.PNG)
+                with open('./src/static/encoded.png','wb') as f:
+                    f.write(e)
+                return jsonify({"Status": "Success","Name":"encoded.png"})
 
-        print(data, source)
-        if source:
-            source.save(source.filename)
-            e=encode_into_image(open(source.filename,'rb').read(),data.read(),ImageFileTypes.PNG)
-            with open('./src/static/encoded.png','wb') as f:
-                f.write(e)
-            return jsonify({"Status": "Success","Name":"encoded.png"})
+            return jsonify({"Status": "Success"})
+        except IndexError:
+            return jsonify({"Status": "Failed", "Error": "Not enough space"})
+        except Exception as e:
+            return jsonify({"Status": "Failed", "Error": str(e)})
 
-        return jsonify({"Status": "Success"})
     
 @app.route('/encode_image',methods=['GET'])
 def encode_image():
@@ -123,8 +126,7 @@ def api_decode_image():
     try:
         decode = request.files['decode']
         if decode:
-            decode.save(decode.filename)
-            d=decode_from_image(open(decode.filename,'rb').read(),ImageFileTypes.PNG)
+            d=decode_from_image(decode.read(),ImageFileTypes.PNG)
             with open('./src/static/decoded.txt','wb') as f:
                 f.write(d)
             return jsonify({"Status": "Success","Name":"decoded.txt"})
