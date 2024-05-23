@@ -1,5 +1,6 @@
 # Helo in kool aplikejszon
-
+Welcome to steanography app that lets you hide data
+inside waw and png files. Enjoy ( :
 ## How do i run the app ?
 
 ### Requirements
