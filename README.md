@@ -1,38 +1,30 @@
 # Helo in kool aplikejszon
 
-## App setup
+## How do i run the app ?
 
-- Python setup 3.12 needed
-```bash
-$ python -m venv venv
-$ source venv/bin/activate
-$ pip install -r requirements.txt
-$ deactivate
-```
+### Requirements
+- Python version 3.12+
+- Something to build cpp code
 
-- Build stuff
-```bash
-$ mkdir bin
-$ make
-```
+### Setup in 2 simple steps
 
-- Add bin to pythonpath 
+1. Build dependencies
 ```bash
-$ export PYTHONPATH="$PWD/bin"
+git clone git@github.com:Marmar9/Steanography-C_Py.git
+cd Steanography-C_Py
+mkdir bin
+make
 ```
 
-- Generate .pyi types (needed only for development)
+2. Run the app
 ```bash
-$ ./gen-pyright-types.sh
+python -m venv venv
+make run
 ```
-- Web app
+
+3. (Optional) Generate .pyi types
 ```bash
-$ python src/api.py
-```
-- Client example
-```bash
-$ python wav.py -e chime_big_ben.wav .\1200px-Sunflower_from_Silesia2-min.jpg result
-$ python wav.py -d result.wav decoded
+./gen-pyright-types.sh
 ```
 
 ## References
